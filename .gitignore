@@ -1,0 +1,22 @@
+# Xcode
+*.xcworkspace
+xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.xcuserstate
+/.xcode.env.local
+
+# Swift Package Manager
+.build/
+Packages/
+*.resolved
+
+# CocoaPods
+Pods/
+
+# macOS
+.DS_Store
+
+# Generated
+GymTracker.xcodeproj/
