@@ -34,7 +34,7 @@ struct NotificationsView: View {
                                     .foregroundStyle(.secondary)
                             }
                             Slider(value: $waterInterval, in: 15...180, step: 15)
-                                .tint(.accentBlue)
+                                .tint(Color.accentBlue)
                         }
                     }
                 }
@@ -48,7 +48,7 @@ struct NotificationsView: View {
                                 .foregroundStyle(.secondary)
                         }
                         Slider(value: $restTimerDuration, in: 30...300, step: 15)
-                            .tint(.accentOrange)
+                            .tint(Color.accentOrange)
                     }
                 }
 

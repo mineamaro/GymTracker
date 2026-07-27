@@ -51,7 +51,7 @@ struct ContentView: View {
                         }
                         .tag(6)
                 }
-                .tint(.accentGreen)
+                .tint(Color.accentGreen)
             } else {
                 ProgressView("Carregando...")
             }

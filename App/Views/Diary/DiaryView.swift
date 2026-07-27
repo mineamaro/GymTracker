@@ -45,7 +45,7 @@ struct DiaryView: View {
             if viewModel.selectedDate.isSameDay(as: Date()) {
                 Text("Hoje")
                     .font(.caption)
-                    .foregroundStyle(.accentBlue)
+                    .foregroundStyle(Color.accentBlue)
             }
         }
         .padding()
@@ -91,7 +91,7 @@ struct DiaryView: View {
                     .foregroundStyle(.secondary)
                 HStack {
                     Slider(value: $viewModel.sleepHours, in: 0...12, step: 0.5)
-                        .tint(.accentPurple)
+                        .tint(Color.accentPurple)
                     Text("\(String(format: "%.1f", viewModel.sleepHours))h")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)

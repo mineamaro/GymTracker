@@ -63,18 +63,18 @@ struct ActiveWorkoutView: View {
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                     .background(Color.accentOrange.opacity(0.15))
-                    .foregroundStyle(.accentOrange)
+                    .foregroundStyle(Color.accentOrange)
                     .clipShape(Capsule())
             }
 
             if viewModel.isResting {
                 HStack {
                     Image(systemName: "clock.fill")
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                     Text(formatRestTime(viewModel.restTimeRemaining))
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                         .contentTransition(.numericText())
                     Button(action: viewModel.cancelRest) {
                         Image(systemName: "xmark.circle.fill")
@@ -105,7 +105,7 @@ struct ActiveWorkoutView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Image(systemName: "dumbbell.fill")
-                                .foregroundStyle(.accentGreen)
+                                .foregroundStyle(Color.accentGreen)
                                 .font(.caption)
                             Text(group.exerciseName)
                                 .font(.headline)
@@ -116,7 +116,7 @@ struct ActiveWorkoutView: View {
                                 )
                             }) {
                                 Image(systemName: "plus.circle")
-                                    .foregroundStyle(.accentBlue)
+                                    .foregroundStyle(Color.accentBlue)
                             }
                         }
 

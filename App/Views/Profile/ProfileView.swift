@@ -47,7 +47,7 @@ struct ProfileView: View {
         VStack(spacing: 12) {
             Image(systemName: "person.circle.fill")
                 .font(.system(size: 80))
-                .foregroundStyle(.accentBlue)
+                .foregroundStyle(Color.accentBlue)
                 .symbolRenderingMode(.hierarchical)
 
             if viewModel.isEditing {
@@ -68,7 +68,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 6)
                     .background(Color.accentGreen.opacity(0.15))
-                    .foregroundStyle(.accentGreen)
+                    .foregroundStyle(Color.accentGreen)
                     .clipShape(Capsule())
             }
         }
@@ -168,7 +168,7 @@ struct ProfileView: View {
             Button(action: { showGoals = true }) {
                 HStack {
                     Image(systemName: "target")
-                        .foregroundStyle(.accentBlue)
+                        .foregroundStyle(Color.accentBlue)
                     Text("Metas")
                         .foregroundStyle(.primary)
                     Spacer()
@@ -184,7 +184,7 @@ struct ProfileView: View {
             Button(action: { showNotifications = true }) {
                 HStack {
                     Image(systemName: "bell.fill")
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                     Text("Notificações")
                         .foregroundStyle(.primary)
                     Spacer()

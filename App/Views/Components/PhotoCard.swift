@@ -42,7 +42,7 @@ struct PhotoCard: View {
                 HStack {
                     Label("\(String(format: "%.1f", fat))% gordura", systemImage: "drop.fill")
                         .font(.caption)
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                 }
             }
 

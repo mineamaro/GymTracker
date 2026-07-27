@@ -101,7 +101,7 @@ struct WorkoutListView: View {
                         showNewWorkout = false
                     }
                     .buttonStyle(.borderedProminent)
-                    .tint(.accentGreen)
+                    .tint(Color.accentGreen)
                 }
             }
             .padding()

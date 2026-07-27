@@ -38,7 +38,7 @@ struct AddSetView: View {
                                 get: { Double(viewModel.currentReps) },
                                 set: { viewModel.currentReps = Int($0) }
                             ), in: 1...50, step: 1)
-                            .tint(.accentBlue)
+                            .tint(Color.accentBlue)
                         }
 
                         VStack(spacing: 8) {
@@ -52,7 +52,7 @@ struct AddSetView: View {
                                     .fontWeight(.bold)
                             }
                             Slider(value: $viewModel.currentWeight, in: 0...300, step: 0.5)
-                                .tint(.accentGreen)
+                                .tint(Color.accentGreen)
                         }
 
                         HStack {
@@ -81,7 +81,7 @@ struct AddSetView: View {
                             dismiss()
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(.accentGreen)
+                        .tint(Color.accentGreen)
                         .disabled(viewModel.currentReps == 0)
                     }
                 }

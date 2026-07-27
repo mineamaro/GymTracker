@@ -27,7 +27,7 @@ struct GoalCard: View {
 
                 if goal.isCompleted {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.accentGreen)
+                        .foregroundStyle(Color.accentGreen)
                         .font(.title3)
                 }
             }
@@ -55,14 +55,14 @@ struct GoalCard: View {
                             .font(.caption)
                     }
                     .buttonStyle(.bordered)
-                    .tint(.accentBlue)
+                    .tint(Color.accentBlue)
 
                     Button(action: { onUpdate(goal.targetValue) }) {
                         Text("Concluir")
                             .font(.caption)
                     }
                     .buttonStyle(.bordered)
-                    .tint(.accentGreen)
+                    .tint(Color.accentGreen)
                 }
             }
 

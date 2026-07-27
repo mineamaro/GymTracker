@@ -106,7 +106,7 @@ struct StatisticsView: View {
                     Text("\(String(format: "%.1f", weight)) kg")
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.accentGreen)
+                        .foregroundStyle(Color.accentGreen)
                 }
             }
 

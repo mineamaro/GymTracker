@@ -16,7 +16,7 @@ struct WorkoutCard: View {
 
                     Image(systemName: "figure.strengthtraining.traditional")
                         .font(.title3)
-                        .foregroundStyle(.accentGreen)
+                        .foregroundStyle(Color.accentGreen)
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -33,7 +33,7 @@ struct WorkoutCard: View {
                                 .padding(.vertical, 2)
                                 .background(Color.accentBlue.opacity(0.15))
                                 .clipShape(Capsule())
-                                .foregroundStyle(.accentBlue)
+                                .foregroundStyle(Color.accentBlue)
                         }
                     }
 
@@ -62,7 +62,7 @@ struct WorkoutCard: View {
                     Text(String(format: "%.0f", session.totalVolume))
                         .font(.title3)
                         .fontWeight(.bold)
-                        .foregroundStyle(.accentGreen)
+                        .foregroundStyle(Color.accentGreen)
                     Text("kg")
                         .font(.caption2)
                         .foregroundStyle(.secondary)

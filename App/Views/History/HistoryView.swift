@@ -49,7 +49,7 @@ struct HistoryView: View {
                         .foregroundStyle(.secondary)
                     Text("Volume total: \(String(format: "%.0f", session.totalVolume)) kg")
                         .font(.subheadline)
-                        .foregroundStyle(.accentGreen)
+                        .foregroundStyle(Color.accentGreen)
                 }
                 .padding()
                 .frame(maxWidth: .infinity)

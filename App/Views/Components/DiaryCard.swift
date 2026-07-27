@@ -20,12 +20,12 @@ struct DiaryCard: View {
                 if !entry.energyLevel.isEmpty {
                     Label(entry.energyLevel, systemImage: EnergyLevel(rawValue: entry.energyLevel)?.iconName ?? "bolt")
                         .font(.caption)
-                        .foregroundStyle(.accentBlue)
+                        .foregroundStyle(Color.accentBlue)
                 }
                 if entry.sleepHours > 0 {
                     Label("\(String(format: "%.1f", entry.sleepHours))h sono", systemImage: "moon.fill")
                         .font(.caption)
-                        .foregroundStyle(.accentPurple)
+                        .foregroundStyle(Color.accentPurple)
                 }
             }
 

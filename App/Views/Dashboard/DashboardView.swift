@@ -42,11 +42,11 @@ struct DashboardView: View {
             if viewModel.currentStreak > 0 {
                 HStack(spacing: 4) {
                     Image(systemName: "flame.fill")
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                     Text("\(viewModel.currentStreak) dias seguidos!")
                 }
                 .font(.subheadline)
-                .foregroundStyle(.accentOrange)
+                .foregroundStyle(Color.accentOrange)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -116,7 +116,7 @@ struct DashboardView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "target")
-                    .foregroundStyle(.accentBlue)
+                    .foregroundStyle(Color.accentBlue)
                 Text("Meta Ativa")
                     .font(.headline)
                 Spacer()

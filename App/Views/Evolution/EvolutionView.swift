@@ -95,7 +95,7 @@ struct EvolutionView: View {
                     }
 
                     Image(systemName: "arrow.right")
-                        .foregroundStyle(.accentBlue)
+                        .foregroundStyle(Color.accentBlue)
 
                     VStack {
                         Text(newer.date.formattedShortDate())
@@ -118,7 +118,7 @@ struct EvolutionView: View {
                             .foregroundStyle(.secondary)
                         Image(systemName: "arrow.right")
                             .font(.caption)
-                            .foregroundStyle(.accentGreen)
+                            .foregroundStyle(Color.accentGreen)
                         Text("\(String(format: "%.1f", newer.bodyWeight)) kg")
                             .font(.subheadline)
                             .fontWeight(.bold)

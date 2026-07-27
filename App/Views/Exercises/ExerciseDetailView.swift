@@ -77,7 +77,7 @@ struct ExerciseDetailView: View {
     private func infoRow(icon: String, title: String, value: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .foregroundStyle(.accentBlue)
+                .foregroundStyle(Color.accentBlue)
                 .frame(width: 20)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

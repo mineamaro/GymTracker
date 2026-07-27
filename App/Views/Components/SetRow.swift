@@ -35,7 +35,7 @@ struct SetRow: View {
                 if set.isPersonalRecord {
                     Label("Recorde Pessoal!", systemImage: "flame.fill")
                         .font(.caption2)
-                        .foregroundStyle(.accentOrange)
+                        .foregroundStyle(Color.accentOrange)
                 }
             }
 
@@ -48,7 +48,7 @@ struct SetRow: View {
                     .padding(.vertical, 3)
                     .background(Color.accentPurple.opacity(0.15))
                     .clipShape(Capsule())
-                    .foregroundStyle(.accentPurple)
+                    .foregroundStyle(Color.accentPurple)
             }
 
             if let onDelete = onDelete {
