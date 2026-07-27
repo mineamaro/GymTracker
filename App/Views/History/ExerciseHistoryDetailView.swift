@@ -11,9 +11,9 @@ struct ExerciseHistoryDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                SimpleChartView(data: volumeData, title: "Evolução do Volume", color: .accentGreen)
+                SimpleChartView(data: volumeData, title: "Evolução do Volume", color: .neonGreen)
 
-                SimpleChartView(data: weightData, title: "Evolução da Carga Máxima", color: .accentBlue)
+                SimpleChartView(data: weightData, title: "Evolução da Carga Máxima", color: .neonBlue)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Histórico Completo")
@@ -47,7 +47,7 @@ struct ExerciseHistoryDetailView: View {
                     }
                 }
                 .padding()
-                .background(Color.cardBackground)
+                .background(Color.gymCard)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             }
             .padding()

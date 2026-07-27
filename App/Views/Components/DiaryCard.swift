@@ -20,12 +20,12 @@ struct DiaryCard: View {
                 if !entry.energyLevel.isEmpty {
                     Label(entry.energyLevel, systemImage: EnergyLevel(rawValue: entry.energyLevel)?.iconName ?? "bolt")
                         .font(.caption)
-                        .foregroundStyle(Color.accentBlue)
+                        .foregroundStyle(Color.neonBlue)
                 }
                 if entry.sleepHours > 0 {
                     Label("\(String(format: "%.1f", entry.sleepHours))h sono", systemImage: "moon.fill")
                         .font(.caption)
-                        .foregroundStyle(Color.accentPurple)
+                        .foregroundStyle(Color.neonPurple)
                 }
             }
 
@@ -62,7 +62,7 @@ struct DiaryCard: View {
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }

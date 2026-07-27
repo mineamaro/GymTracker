@@ -38,7 +38,7 @@ struct AddSetView: View {
                                 get: { Double(viewModel.currentReps) },
                                 set: { viewModel.currentReps = Int($0) }
                             ), in: 1...50, step: 1)
-                            .tint(Color.accentBlue)
+                            .tint(Color.neonBlue)
                         }
 
                         VStack(spacing: 8) {
@@ -52,7 +52,7 @@ struct AddSetView: View {
                                     .fontWeight(.bold)
                             }
                             Slider(value: $viewModel.currentWeight, in: 0...300, step: 0.5)
-                                .tint(Color.accentGreen)
+                                .tint(Color.neonGreen)
                         }
 
                         HStack {
@@ -67,7 +67,7 @@ struct AddSetView: View {
                             .lineLimit(2...4)
                     }
                     .padding()
-                    .background(Color.cardBackground)
+                    .background(Color.gymCard)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
 
                     HStack(spacing: 16) {
@@ -81,7 +81,7 @@ struct AddSetView: View {
                             dismiss()
                         }
                         .buttonStyle(.borderedProminent)
-                        .tint(Color.accentGreen)
+                        .tint(Color.neonGreen)
                         .disabled(viewModel.currentReps == 0)
                     }
                 }

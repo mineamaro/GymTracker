@@ -53,7 +53,7 @@ struct ExerciseDetailView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
@@ -70,14 +70,14 @@ struct ExerciseDetailView: View {
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
     private func infoRow(icon: String, title: String, value: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .foregroundStyle(Color.accentBlue)
+                .foregroundStyle(Color.neonBlue)
                 .frame(width: 20)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -115,7 +115,7 @@ struct ExerciseDetailView: View {
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }

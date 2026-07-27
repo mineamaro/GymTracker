@@ -45,11 +45,11 @@ struct DiaryView: View {
             if viewModel.selectedDate.isSameDay(as: Date()) {
                 Text("Hoje")
                     .font(.caption)
-                    .foregroundStyle(Color.accentBlue)
+                    .foregroundStyle(Color.neonBlue)
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 
@@ -91,7 +91,7 @@ struct DiaryView: View {
                     .foregroundStyle(.secondary)
                 HStack {
                     Slider(value: $viewModel.sleepHours, in: 0...12, step: 0.5)
-                        .tint(Color.accentPurple)
+                        .tint(Color.neonPurple)
                     Text("\(String(format: "%.1f", viewModel.sleepHours))h")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -127,7 +127,7 @@ struct DiaryView: View {
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 

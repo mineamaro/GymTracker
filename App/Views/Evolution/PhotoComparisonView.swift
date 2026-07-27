@@ -23,7 +23,7 @@ struct PhotoComparisonView: View {
 
                 Image(systemName: "arrow.right")
                     .font(.title2)
-                    .foregroundStyle(Color.accentBlue)
+                    .foregroundStyle(Color.neonBlue)
 
                 VStack {
                     Text(newPhoto.date.formattedShortDate())
@@ -71,11 +71,11 @@ struct PhotoComparisonView: View {
                     .foregroundStyle(.secondary)
                 Image(systemName: "arrow.right")
                     .font(.caption)
-                    .foregroundStyle(Color.accentGreen)
+                    .foregroundStyle(Color.neonGreen)
                 Text("\(String(format: "%.1f", newPhoto.bodyWeight)) kg")
                     .font(.title3)
                     .fontWeight(.bold)
-                    .foregroundStyle(Color.accentGreen)
+                    .foregroundStyle(Color.neonGreen)
             }
 
             if let oldFat = oldPhoto.bodyFat, let newFat = newPhoto.bodyFat {
