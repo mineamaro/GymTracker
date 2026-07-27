@@ -31,7 +31,7 @@ struct GoalCard: View {
                 }
             }
 
-            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? .neonGreen : .neonBlue)
+            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? Color.neonGreen : .neonBlue)
 
             HStack {
                 Text("\(String(format: "%.1f", goal.currentValue)) / \(String(format: "%.1f", goal.targetValue)) \(goal.unit)")

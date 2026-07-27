@@ -26,7 +26,7 @@ struct StatCard: View {
             if let trend = trend {
                 Label(trend, systemImage: trend.hasPrefix("+") ? "arrow.up.right" : "arrow.down.right")
                     .font(.system(size: 9)).fontWeight(.bold)
-                    .foregroundStyle(trend.hasPrefix("+") ? .neonGreen : .neonRed)
+                    .foregroundStyle(trend.hasPrefix("+") ? Color.neonGreen : .neonRed)
             }
         }
         .frame(maxWidth: .infinity)

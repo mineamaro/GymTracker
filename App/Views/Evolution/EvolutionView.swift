@@ -67,7 +67,7 @@ struct EvolutionView: View {
                     statCircle(value: "\(viewModel.photos.count)", label: "FOTOS", color: .neonBlue)
                     if let first = viewModel.photos.last, let last = viewModel.photos.first {
                         let diff = last.bodyWeight - first.bodyWeight
-                        statCircle(value: "\(String(format: "%.1f", abs(diff)))kg", label: diff >= 0 ? "GANHOU" : "PERDEU", color: diff >= 0 ? .neonGreen : .neonOrange)
+                        statCircle(value: "\(String(format: "%.1f", abs(diff)))kg", label: diff >= 0 ? "GANHOU" : "PERDEU", color: diff >= 0 ? Color.neonGreen : .neonOrange)
                     }
                 }
             }
