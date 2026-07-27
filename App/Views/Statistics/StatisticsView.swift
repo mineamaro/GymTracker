@@ -9,23 +9,28 @@ struct StatisticsView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    summaryGrid
-                    weeklyVolumeChart
-                    monthlyVolumeChart
-                    mostTrainedSection
-                    mostPerformedSection
-                    maxWeightsSection
+            ZStack {
+                Color.gymBackground.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 16) {
+                        summaryGrid
+                        weeklyVolumeChart
+                        monthlyVolumeChart
+                        mostTrainedSection
+                        mostPerformedSection
+                        maxWeightsSection
+                    }
+                    .padding()
                 }
-                .padding()
             }
-            .background(Color(.systemBackground))
-            .navigationTitle("Estatísticas")
+            .navigationTitle("📊 ESTATÍSTICAS")
+            .toolbarBackground(Color.gymCard, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: viewModel.loadStatistics) {
                         Image(systemName: "arrow.clockwise")
+                            .foregroundStyle(Color.neonGreen)
                     }
                 }
             }
@@ -34,90 +39,131 @@ struct StatisticsView: View {
 
     private var summaryGrid: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 2), spacing: 12) {
-            StatCard(title: "Treinos Essa Semana", value: "\(viewModel.totalWorkoutsWeek)", icon: "calendar.badge.clock", color: .accentBlue)
-            StatCard(title: "Treinos Esse Mês", value: "\(viewModel.totalWorkoutsMonth)", icon: "calendar", color: .accentGreen)
-            StatCard(title: "Treinos no Ano", value: "\(viewModel.totalWorkoutsYear)", icon: "yearly.calendar", color: .accentPurple)
-            StatCard(title: "Dias Seguidos", value: "\(viewModel.currentStreak)", icon: "flame.fill", color: .accentOrange)
+            gymStatCard("TREINOS / SEMANA", "\(viewModel.totalWorkoutsWeek)", "calendar.badge.clock", .neonBlue)
+            gymStatCard("TREINOS / MÊS", "\(viewModel.totalWorkoutsMonth)", "calendar", .neonGreen)
+            gymStatCard("TREINOS / ANO", "\(viewModel.totalWorkoutsYear)", "yearly.calendar", .neonPurple)
+            gymStatCard("DIAS SEGUIDOS", "\(viewModel.currentStreak)", "flame.fill", .neonOrange)
         }
     }
 
+    private func gymStatCard(_ title: String, _ value: String, _ icon: String, _ color: Color) -> some View {
+        VStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(color)
+            Text(value)
+                .font(.title2).fontWeight(.heavy)
+                .foregroundStyle(.white)
+            Text(title)
+                .font(.caption2).fontWeight(.bold)
+                .foregroundStyle(.gray)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 16)
+        .background(Color.gymCard)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.gymBorder, lineWidth: 1))
+    }
+
     private var weeklyVolumeChart: some View {
-        SimpleChartView(data: viewModel.weeklyVolume, title: "Volume Semanal (kg)", color: .accentGreen)
+        SimpleChartView(data: viewModel.weeklyVolume, title: "📈 VOLUME SEMANAL (KG)", color: .neonGreen)
     }
 
     private var monthlyVolumeChart: some View {
-        SimpleChartView(data: viewModel.monthlyVolume, title: "Volume Mensal (kg)", color: .accentBlue)
+        SimpleChartView(data: viewModel.monthlyVolume, title: "📈 VOLUME MENSAL (KG)", color: .neonBlue)
     }
 
     private var mostTrainedSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Grupos Musculares Mais Treinados")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("🏆 GRUPOS MAIS TREINADOS")
+                .font(.headline).fontWeight(.bold)
+                .foregroundStyle(.white)
 
             ForEach(viewModel.mostTrainedGroups.prefix(5), id: \.0) { group, count in
                 HStack {
                     Circle()
                         .fill(Color.muscleGroupColor(group))
-                        .frame(width: 10, height: 10)
-                    Text(group)
-                        .font(.subheadline)
+                        .frame(width: 12, height: 12)
+                    Text(group.uppercased())
+                        .font(.subheadline).fontWeight(.semibold)
+                        .foregroundStyle(.white)
                     Spacer()
-                    Text("\(count) treinos")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 4) {
+                        Text("\(count)").fontWeight(.bold)
+                            .foregroundStyle(Color.neonGreen)
+                        Text("TREINOS").font(.caption2)
+                            .foregroundStyle(.gray)
+                    }
                 }
+                .padding(.vertical, 4)
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 
     private var mostPerformedSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Exercícios Mais Realizados")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("🔁 EXERCÍCIOS MAIS REALIZADOS")
+                .font(.headline).fontWeight(.bold)
+                .foregroundStyle(.white)
 
             ForEach(viewModel.mostPerformedExercises.prefix(5), id: \.0) { name, count in
                 HStack {
-                    Text(name)
-                        .font(.subheadline)
+                    Text(name.uppercased())
+                        .font(.subheadline).fontWeight(.semibold)
+                        .foregroundStyle(.white)
                     Spacer()
-                    Text("\(count) vezes")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: 4) {
+                        Text("\(count)").fontWeight(.bold)
+                            .foregroundStyle(Color.neonBlue)
+                        Text("X").font(.caption2)
+                            .foregroundStyle(.gray)
+                    }
                 }
+                .padding(.vertical, 4)
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
+
     private var maxWeightsSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Peso Máximo por Exercício")
-                .font(.headline)
+        VStack(alignment: .leading, spacing: 10) {
+            Text("🏋️ PESO MÁXIMO POR EXERCÍCIO")
+                .font(.headline).fontWeight(.bold)
+                .foregroundStyle(.white)
 
             ForEach(viewModel.maxWeights.prefix(5), id: \.0) { name, weight in
                 HStack {
-                    Text(name)
-                        .font(.subheadline)
+                    Text(name.uppercased())
+                        .font(.subheadline).fontWeight(.semibold)
+                        .foregroundStyle(.white)
                     Spacer()
-                    Text("\(String(format: "%.1f", weight)) kg")
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color.accentGreen)
+                    HStack(spacing: 4) {
+                        Text(String(format: "%.1f", weight)).fontWeight(.bold)
+                            .foregroundStyle(Color.neonGreen)
+                        Text("KG").font(.caption2)
+                            .foregroundStyle(.gray)
+                    }
                 }
+                .padding(.vertical, 4)
             }
 
             if viewModel.maxWeights.isEmpty {
-                Text("Nenhum peso registrado ainda.")
+                Text("NENHUM PESO REGISTRADO AINDA.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.gray)
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 }

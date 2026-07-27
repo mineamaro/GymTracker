@@ -12,22 +12,25 @@ struct ExerciseLibraryView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                SearchBar(text: $viewModel.searchQuery, placeholder: "Buscar exercícios...")
-                    .padding()
+            ZStack {
+                Color.gymBackground.ignoresSafeArea()
 
-                muscleGroupScroll
+                VStack(spacing: 0) {
+                    SearchBar(text: $viewModel.searchQuery, placeholder: "BUSCAR EXERCÍCIOS...")
+                        .padding()
 
-                filterBar
-
-                exerciseList
+                    muscleGroupScroll
+                    filterBar
+                    exerciseList
+                }
             }
-            .background(Color(.systemBackground))
-            .navigationTitle("Exercícios")
+            .navigationTitle("🏋️ EXERCÍCIOS")
+            .toolbarBackground(Color.gymCard, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: { showCustomExercise = true }) {
                         Image(systemName: "plus")
+                            .foregroundStyle(Color.neonGreen)
                     }
                 }
             }
@@ -41,7 +44,7 @@ struct ExerciseLibraryView: View {
 
     private var muscleGroupScroll: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
+            HStack(spacing: 14) {
                 ForEach(MuscleGroup.allCases, id: \.rawValue) { group in
                     MuscleGroupIcon(
                         muscleGroup: group.rawValue,
@@ -58,28 +61,30 @@ struct ExerciseLibraryView: View {
 
     private var filterBar: some View {
         HStack(spacing: 8) {
-            filterChip("Favoritos", isActive: viewModel.showFavoritesOnly) {
+            gymFilterChip("⭐ FAVORITOS", isActive: viewModel.showFavoritesOnly) {
                 viewModel.showFavoritesOnly.toggle()
             }
-            filterChip("Personalizados", isActive: viewModel.showCustomOnly) {
+            gymFilterChip("🔧 PERSONALIZADOS", isActive: viewModel.showCustomOnly) {
                 viewModel.showCustomOnly.toggle()
             }
             Spacer()
+            Text("\(viewModel.filteredExercises.count)")
+                .font(.caption).fontWeight(.bold)
+                .foregroundStyle(.gray)
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
     }
 
-    private func filterChip(_ label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
+    private func gymFilterChip(_ label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(label)
-                .font(.caption)
-                .fontWeight(isActive ? .semibold : .regular)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(isActive ? Color.accentBlue : Color(.systemGray6))
-                .foregroundStyle(isActive ? .white : .primary)
+                .font(.caption).fontWeight(.bold)
+                .padding(.horizontal, 14).padding(.vertical, 7)
+                .background(isActive ? Color.neonBlue.opacity(0.2) : Color.gymCard)
+                .foregroundStyle(isActive ? Color.neonBlue : .gray)
                 .clipShape(Capsule())
+                .overlay(Capsule().stroke(isActive ? Color.neonBlue.opacity(0.3) : Color.gymBorder, lineWidth: 1))
         }
     }
 
@@ -89,6 +94,8 @@ struct ExerciseLibraryView: View {
                 NavigationLink(destination: ExerciseDetailView(exercise: exercise, dataService: dataService)) {
                     ExerciseRow(exercise: exercise)
                 }
+                .listRowBackground(Color.gymCard)
+                .listRowSeparator(.hidden)
             }
             .onDelete { indexSet in
                 for index in indexSet {
@@ -97,5 +104,6 @@ struct ExerciseLibraryView: View {
             }
         }
         .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 }

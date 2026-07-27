@@ -7,68 +7,80 @@ struct PhotoCard: View {
     var onDelete: (() -> Void)?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(photo.date.formattedFullDate())
-                    .font(.headline)
+                Image(systemName: "calendar")
+                    .foregroundStyle(Color.neonGreen)
+                    .font(.caption)
+                Text(photo.date.formattedFullDate().uppercased())
+                    .font(.headline).fontWeight(.bold)
+                    .foregroundStyle(.white)
                 Spacer()
-                Text("\(String(format: "%.1f", photo.bodyWeight)) kg")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 4) {
+                    Text("\(String(format: "%.1f", photo.bodyWeight))")
+                        .font(.title3).fontWeight(.heavy)
+                        .foregroundStyle(Color.neonGreen)
+                    Text("KG")
+                        .font(.caption).fontWeight(.bold)
+                        .foregroundStyle(.gray)
+                }
             }
 
             HStack(spacing: 12) {
                 ForEach(["front", "back", "side"], id: \.self) { angle in
-                    VStack {
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(.systemGray5))
-                            .aspectRatio(0.75, contentMode: .fit)
-                            .overlay {
-                                Image(systemName: "person.fill")
-                                    .font(.largeTitle)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .overlay(alignment: .bottom) {
-                                Text(angle == "front" ? "Frente" : angle == "back" ? "Costas" : "Lateral")
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                                    .padding(.bottom, 4)
-                            }
+                    VStack(spacing: 4) {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.gymCardLight)
+                                .aspectRatio(0.75, contentMode: .fit)
+                                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gymBorder, lineWidth: 1))
+
+                            Image(systemName: "person.fill")
+                                .font(.largeTitle)
+                                .foregroundStyle(.gray.opacity(0.3))
+                        }
+                        Text(angle == "front" ? "FRENTE" : angle == "back" ? "COSTAS" : "LATERAL")
+                            .font(.system(size: 8)).fontWeight(.bold)
+                            .foregroundStyle(.gray)
                     }
                 }
             }
 
             if let fat = photo.bodyFat {
-                HStack {
-                    Label("\(String(format: "%.1f", fat))% gordura", systemImage: "drop.fill")
-                        .font(.caption)
-                        .foregroundStyle(Color.accentOrange)
+                HStack(spacing: 4) {
+                    Image(systemName: "drop.fill")
+                        .foregroundStyle(Color.neonOrange).font(.caption)
+                    Text("\(String(format: "%.1f", fat))% GORDURA")
+                        .font(.caption).fontWeight(.bold)
+                        .foregroundStyle(Color.neonOrange)
                 }
             }
 
             if !photo.notes.isEmpty {
-                Text(photo.notes)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text(photo.notes.uppercased())
+                    .font(.caption).foregroundStyle(.gray)
             }
 
             HStack(spacing: 16) {
                 if let onCompare = onCompare {
                     Button(action: onCompare) {
-                        Label("Comparar", systemImage: "rectangle.on.rectangle")
-                            .font(.caption)
+                        Label("⚖️ COMPARAR", systemImage: "rectangle.on.rectangle")
+                            .font(.system(size: 10)).fontWeight(.bold)
+                            .foregroundStyle(Color.neonBlue)
                     }
                 }
+                Spacer()
                 if let onDelete = onDelete {
                     Button(role: .destructive, action: onDelete) {
-                        Label("Excluir", systemImage: "trash")
-                            .font(.caption)
+                        Label("EXCLUIR", systemImage: "trash")
+                            .font(.system(size: 10)).fontWeight(.bold)
                     }
                 }
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 }

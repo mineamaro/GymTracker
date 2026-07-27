@@ -111,4 +111,10 @@ final class WorkoutViewModel {
     func activateSession(_ session: WorkoutSession) {
         activeSession = session
     }
+
+    func addSetToExercicio(nome: String) {
+        if let exercise = exercises.first(where: { $0.name == nome }) {
+            addExerciseToSession(exercise)
+        }
+    }
 }

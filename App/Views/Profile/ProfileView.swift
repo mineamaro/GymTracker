@@ -13,25 +13,31 @@ struct ProfileView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    profileHeader
-                    profileForm
-                    quickLinks
+            ZStack {
+                Color.gymBackground.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 16) {
+                        profileHeader
+                        profileForm
+                        quickLinks
+                    }
+                    .padding()
                 }
-                .padding()
             }
-            .background(Color(.systemBackground))
-            .navigationTitle("Perfil")
+            .navigationTitle("👤 PERFIL")
+            .toolbarBackground(Color.gymCard, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button(viewModel.isEditing ? "Salvar" : "Editar") {
+                    Button(viewModel.isEditing ? "SALVAR" : "EDITAR") {
                         if viewModel.isEditing {
                             viewModel.saveProfile()
                         } else {
                             viewModel.isEditing = true
                         }
                     }
+                    .fontWeight(.bold).font(.caption)
+                    .foregroundStyle(Color.neonGreen)
                 }
             }
             .sheet(isPresented: $showNotifications) {
@@ -47,155 +53,151 @@ struct ProfileView: View {
         VStack(spacing: 12) {
             Image(systemName: "person.circle.fill")
                 .font(.system(size: 80))
-                .foregroundStyle(Color.accentBlue)
+                .foregroundStyle(Color.neonGreen)
                 .symbolRenderingMode(.hierarchical)
 
             if viewModel.isEditing {
-                TextField("Nome", text: $viewModel.name)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                TextField("", text: $viewModel.name)
+                    .font(.title2).fontWeight(.heavy)
                     .multilineTextAlignment(.center)
-                    .textFieldStyle(.roundedBorder)
+                    .padding(10)
+                    .background(Color.gymCardLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .foregroundStyle(.white)
             } else {
-                Text(viewModel.name.isEmpty ? "Sem nome" : viewModel.name)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                Text(viewModel.name.isEmpty ? "SEM NOME" : viewModel.name.uppercased())
+                    .font(.title2).fontWeight(.heavy)
+                    .foregroundStyle(.white)
             }
 
             if !viewModel.isEditing {
-                Text(viewModel.objective)
-                    .font(.subheadline)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 6)
-                    .background(Color.accentGreen.opacity(0.15))
-                    .foregroundStyle(Color.accentGreen)
+                Text(viewModel.objective.uppercased())
+                    .font(.caption).fontWeight(.bold)
+                    .padding(.horizontal, 16).padding(.vertical, 6)
+                    .background(Color.neonGreen.opacity(0.15))
+                    .foregroundStyle(Color.neonGreen)
                     .clipShape(Capsule())
+                    .overlay(Capsule().stroke(Color.neonGreen.opacity(0.3), lineWidth: 1))
             }
         }
-        .padding()
         .frame(maxWidth: .infinity)
-        .background(Color.cardBackground)
+        .padding()
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 
     private var profileForm: some View {
         VStack(spacing: 0) {
-            profileRow("Idade", value: "\(viewModel.age)", isEditing: viewModel.isEditing) {
+            gymRow("IDADE", value: "\(viewModel.age) anos", isEditing: viewModel.isEditing) {
                 if viewModel.isEditing {
                     Picker("", selection: $viewModel.age) {
                         ForEach(1...120, id: \.self) { age in
                             Text("\(age) anos").tag(age)
+                                .foregroundStyle(.white)
                         }
                     }
                     .pickerStyle(.menu)
+                    .tint(Color.neonGreen)
                 }
             }
 
-            Divider()
+            Divider().background(Color.gymBorder)
 
-            profileRow("Altura", value: String(format: "%.1f cm", viewModel.height), isEditing: viewModel.isEditing) {
+            gymRow("ALTURA", value: String(format: "%.1f cm", viewModel.height), isEditing: viewModel.isEditing) {
                 if viewModel.isEditing {
                     HStack {
-                        TextField("Altura", value: $viewModel.height, format: .number)
+                        TextField("", value: $viewModel.height, format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
-                        Text("cm")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.white)
+                        Text("CM").font(.caption).foregroundStyle(.gray)
                     }
                 }
             }
 
-            Divider()
+            Divider().background(Color.gymBorder)
 
-            profileRow("Peso", value: String(format: "%.1f kg", viewModel.weight), isEditing: viewModel.isEditing) {
+            gymRow("PESO", value: String(format: "%.1f kg", viewModel.weight), isEditing: viewModel.isEditing) {
                 if viewModel.isEditing {
                     HStack {
-                        TextField("Peso", value: $viewModel.weight, format: .number)
+                        TextField("", value: $viewModel.weight, format: .number)
                             .keyboardType(.decimalPad)
                             .multilineTextAlignment(.trailing)
-                        Text("kg")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(.white)
+                        Text("KG").font(.caption).foregroundStyle(.gray)
                     }
                 }
             }
 
-            Divider()
+            Divider().background(Color.gymBorder)
 
-            profileRow("Objetivo", value: viewModel.objective, isEditing: viewModel.isEditing) {
+            gymRow("OBJETIVO", value: viewModel.objective, isEditing: viewModel.isEditing) {
                 if viewModel.isEditing {
                     Picker("", selection: $viewModel.objective) {
                         ForEach(Objective.allCases, id: \.rawValue) { obj in
                             Text(obj.rawValue).tag(obj.rawValue)
+                                .foregroundStyle(.white)
                         }
                     }
                     .pickerStyle(.menu)
+                    .tint(Color.neonGreen)
                 }
             }
 
-            Divider()
+            Divider().background(Color.gymBorder)
 
-            profileRow("Meta", value: viewModel.goal.isEmpty ? "Adicionar meta" : viewModel.goal, isEditing: viewModel.isEditing) {
+            gymRow("META", value: viewModel.goal.isEmpty ? "ADICIONAR META" : viewModel.goal, isEditing: viewModel.isEditing) {
                 if viewModel.isEditing {
-                    TextField("Ex: Ganhar 5kg de massa magra", text: $viewModel.goal)
+                    TextField("EX: GANHAR 5KG MASSA MAGRA", text: $viewModel.goal)
                         .multilineTextAlignment(.trailing)
+                        .foregroundStyle(.white)
                 }
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 
-    private func profileRow(_ label: String, value: String, isEditing: Bool, @ViewBuilder editContent: () -> some View) -> some View {
+    private func gymRow(_ label: String, value: String, isEditing: Bool, @ViewBuilder editContent: () -> some View) -> some View {
         HStack {
-            Text(label)
-                .font(.body)
-                .foregroundStyle(.primary)
+            Text(label).font(.subheadline).fontWeight(.bold)
+                .foregroundStyle(.gray).frame(width: 80, alignment: .leading)
             Spacer()
             if isEditing {
                 editContent()
             } else {
                 Text(value)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
+                    .font(.subheadline).fontWeight(.semibold)
+                    .foregroundStyle(.white)
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 10)
     }
 
     private var quickLinks: some View {
         VStack(spacing: 12) {
-            Button(action: { showGoals = true }) {
-                HStack {
-                    Image(systemName: "target")
-                        .foregroundStyle(Color.accentBlue)
-                    Text("Metas")
-                        .foregroundStyle(.primary)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
-                }
-                .padding()
-                .background(Color.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            }
+            gymLink("🎯 METAS", icon: "target") { showGoals = true }
+            gymLink("🔔 NOTIFICAÇÕES", icon: "bell.fill") { showNotifications = true }
+        }
+    }
 
-            Button(action: { showNotifications = true }) {
-                HStack {
-                    Image(systemName: "bell.fill")
-                        .foregroundStyle(Color.accentOrange)
-                    Text("Notificações")
-                        .foregroundStyle(.primary)
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .foregroundStyle(.secondary)
-                        .font(.caption)
-                }
-                .padding()
-                .background(Color.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+    private func gymLink(_ label: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                Text(label)
+                    .font(.subheadline).fontWeight(.bold)
+                    .foregroundStyle(.white)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.gray).font(.caption)
             }
+            .padding()
+            .background(Color.gymCard)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gymBorder, lineWidth: 1))
         }
     }
 }

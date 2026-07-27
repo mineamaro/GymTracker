@@ -5,19 +5,24 @@ struct MuscleGroupIcon: View {
     var isSelected: Bool = false
 
     var body: some View {
-        VStack(spacing: 6) {
-            Image(systemName: MuscleGroup(rawValue: muscleGroup)?.iconName ?? "figure.strengthtraining.traditional")
-                .font(.title3)
-                .foregroundStyle(isSelected ? .white : Color.muscleGroupColor(muscleGroup))
-                .frame(width: 48, height: 48)
-                .background(isSelected ? Color.muscleGroupColor(muscleGroup) : Color.muscleGroupColor(muscleGroup).opacity(0.15))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+        VStack(spacing: 8) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isSelected ? Color.muscleGroupColor(muscleGroup) : Color.gymCard)
+                    .frame(width: 54, height: 54)
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(
+                        isSelected ? Color.muscleGroupColor(muscleGroup) : Color.gymBorder, lineWidth: 1.5))
 
-            Text(muscleGroup)
-                .font(.caption2)
-                .foregroundStyle(isSelected ? .primary : .secondary)
+                Image(systemName: MuscleGroup(rawValue: muscleGroup)?.iconName ?? "figure.strengthtraining.traditional")
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? .white : Color.muscleGroupColor(muscleGroup))
+            }
+
+            Text(muscleGroup.uppercased())
+                .font(.system(size: 8)).fontWeight(.bold)
+                .foregroundStyle(isSelected ? .white : .gray)
                 .lineLimit(1)
         }
-        .frame(width: 70)
+        .frame(width: 72)
     }
 }

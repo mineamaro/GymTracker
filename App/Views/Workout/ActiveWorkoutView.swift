@@ -3,10 +3,6 @@ import SwiftUI
 struct ActiveWorkoutView: View {
     @State private var viewModel: WorkoutViewModel
     @State private var showExercisePicker = false
-    @State private var showTimer = false
-    @State private var timerSeconds: Int = 90
-    @State private var timerString = "00:00"
-    @State private var timer: Timer? = nil
     @State private var workoutTimerString = "00:00"
 
     init(viewModel: WorkoutViewModel) {
@@ -14,14 +10,18 @@ struct ActiveWorkoutView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            workoutHeader
-            timerBar
-            exerciseList
-            bottomBar
+        ZStack {
+            Color.gymBackground.ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                workoutHeader
+                timerBar
+                exerciseList
+                bottomBar
+            }
         }
         .onAppear { startWorkoutTimer() }
-        .onDisappear { timer?.invalidate() }
+        .onDisappear { workoutTimerString = "00:00" }
         .sheet(isPresented: $showExercisePicker) {
             exercisePickerSheet
         }
@@ -33,109 +33,107 @@ struct ActiveWorkoutView: View {
     private var workoutHeader: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(viewModel.activeSession?.name ?? "Treino")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("Duração: \(workoutTimerString)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                Text(viewModel.activeSession?.name ?? "TREINO")
+                    .font(.title2).fontWeight(.heavy)
+                    .foregroundStyle(.white)
+                Text("⏱ \(workoutTimerString)")
+                    .font(.subheadline).foregroundStyle(Color.neonGreen)
             }
             Spacer()
             Button(action: finishWorkout) {
-                Text("Finalizar")
-                    .fontWeight(.semibold)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(Color.accentRed)
+                Text("FINALIZAR")
+                    .fontWeight(.heavy).font(.caption)
+                    .padding(.horizontal, 20).padding(.vertical, 10)
+                    .background(Color.neonRed)
                     .foregroundStyle(.white)
                     .clipShape(Capsule())
+                    .overlay(Capsule().stroke(Color.neonRed.opacity(0.5), lineWidth: 1))
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
     }
 
     private var timerBar: some View {
-        HStack(spacing: 16) {
-            Button(action: { showTimer = true }) {
-                Label("Temporizador", systemImage: "timer")
-                    .font(.caption)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(Color.accentOrange.opacity(0.15))
-                    .foregroundStyle(Color.accentOrange)
+        HStack(spacing: 12) {
+            Button(action: { startRestTimer() }) {
+                Label("⏱ DESCANSO", systemImage: "timer")
+                    .font(.caption).fontWeight(.bold)
+                    .padding(.horizontal, 14).padding(.vertical, 8)
+                    .background(Color.gymCardLight)
+                    .foregroundStyle(Color.neonOrange)
                     .clipShape(Capsule())
+                    .overlay(Capsule().stroke(Color.neonOrange.opacity(0.3), lineWidth: 1))
             }
 
             if viewModel.isResting {
-                HStack {
-                    Image(systemName: "clock.fill")
-                        .foregroundStyle(Color.accentOrange)
-                    Text(formatRestTime(viewModel.restTimeRemaining))
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.accentOrange)
-                        .contentTransition(.numericText())
-                    Button(action: viewModel.cancelRest) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
-                    }
+                Text(formatRestTime(viewModel.restTimeRemaining))
+                    .font(.title2).fontWeight(.bold)
+                    .foregroundStyle(Color.neonOrange)
+                    .contentTransition(.numericText())
+                Button(action: viewModel.cancelRest) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.gray)
                 }
-                .padding(.horizontal, 12)
-                .padding(.vertical, 6)
-                .background(Color.accentOrange.opacity(0.1))
-                .clipShape(Capsule())
-                .onAppear { startRestTimer() }
             }
 
             Spacer()
 
-            Text("\(viewModel.activeSession?.totalSets ?? 0) séries")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text("⚡ \(viewModel.activeSession?.totalSets ?? 0) séries")
+                .font(.caption).fontWeight(.bold)
+                .foregroundStyle(Color.neonGreen)
         }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
+        .padding(.horizontal).padding(.vertical, 10)
+        .background(Color.gymCard.opacity(0.5))
     }
 
     private var exerciseList: some View {
         ScrollView {
-            VStack(spacing: 12) {
+            VStack(spacing: 14) {
+                if viewModel.groupedSets.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "dumbbell.fill")
+                            .font(.system(size: 50))
+                            .foregroundStyle(Color.neonGreen.opacity(0.3))
+                        Text("NENHUM EXERCÍCIO AINDA")
+                            .font(.headline).fontWeight(.bold)
+                            .foregroundStyle(.gray)
+                        Text("Toque em + para adicionar")
+                            .font(.subheadline).foregroundStyle(.gray.opacity(0.7))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 60)
+                }
+
                 ForEach(viewModel.groupedSets, id: \.exerciseId) { group in
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 10) {
                         HStack {
                             Image(systemName: "dumbbell.fill")
-                                .foregroundStyle(Color.accentGreen)
+                                .foregroundStyle(Color.neonGreen)
                                 .font(.caption)
-                            Text(group.exerciseName)
-                                .font(.headline)
+                            Text(group.exerciseName.uppercased())
+                                .font(.headline).fontWeight(.bold)
+                                .foregroundStyle(.white)
                             Spacer()
                             Button(action: {
-                                viewModel.addExerciseToSession(
-                                    Exercise(name: group.exerciseName, muscleGroup: "")
-                                )
+                                viewModel.addSetToExercicio(nome: group.exerciseName)
                             }) {
-                                Image(systemName: "plus.circle")
-                                    .foregroundStyle(Color.accentBlue)
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.title3)
+                                    .foregroundStyle(Color.neonGreen)
                             }
                         }
 
                         ForEach(group.sets, id: \.id) { set in
                             SetRow(set: set, onDelete: { viewModel.deleteSet(set) })
+                                .padding(.leading, 4)
                         }
                     }
                     .padding()
-                    .background(Color.cardBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .background(Color.gymCardLight)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.gymBorder, lineWidth: 1))
                     .padding(.horizontal)
-                }
-
-                if viewModel.groupedSets.isEmpty {
-                    EmptyStateView(
-                        icon: "dumbbell.fill",
-                        title: "Adicione Exercícios",
-                        message: "Toque no botão abaixo para adicionar exercícios ao treino."
-                    )
                 }
             }
             .padding(.vertical)
@@ -146,36 +144,44 @@ struct ActiveWorkoutView: View {
         HStack(spacing: 16) {
             Button(action: { showExercisePicker = true }) {
                 HStack {
-                    Image(systemName: "plus")
-                    Text("Adicionar Exercício")
+                    Image(systemName: "plus.app.fill")
+                    Text("ADICIONAR EXERCÍCIO")
+                        .fontWeight(.heavy).font(.callout)
                 }
-                .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.accentBlue)
-                .foregroundStyle(.white)
+                .padding(.vertical, 16)
+                .background(Color.neonGreen.opacity(0.15))
+                .foregroundStyle(Color.neonGreen)
                 .clipShape(RoundedRectangle(cornerRadius: 14))
+                .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.neonGreen.opacity(0.3), lineWidth: 1))
             }
         }
         .padding()
-        .background(.ultraThinMaterial)
+        .background(Color.gymCard)
     }
 
     private var exercisePickerSheet: some View {
         NavigationStack {
-            List(viewModel.exercises) { exercise in
-                Button(action: {
-                    viewModel.addExerciseToSession(exercise)
-                    showExercisePicker = false
-                }) {
-                    ExerciseRow(exercise: exercise, showFavorite: false)
+            ZStack {
+                Color.gymBackground.ignoresSafeArea()
+                List(viewModel.exercises, id: \.id) { exercise in
+                    Button(action: {
+                        viewModel.addExerciseToSession(exercise)
+                        showExercisePicker = false
+                    }) {
+                        ExerciseRow(exercise: exercise, showFavorite: false)
+                    }
+                    .listRowBackground(Color.gymCard)
                 }
+                .scrollContentBackground(.hidden)
             }
-            .navigationTitle("Escolher Exercício")
+            .navigationTitle("ESCOLHER EXERCÍCIO")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.gymCard, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Cancelar") { showExercisePicker = false }
+                        .foregroundStyle(Color.neonGreen)
                 }
             }
         }
@@ -195,6 +201,7 @@ struct ActiveWorkoutView: View {
     }
 
     private func startRestTimer() {
+        viewModel.startRest(seconds: 90)
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { t in
             if viewModel.restTimeRemaining > 0 {
                 viewModel.restTimeRemaining -= 1

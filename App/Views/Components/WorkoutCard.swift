@@ -8,50 +8,42 @@ struct WorkoutCard: View {
 
     var body: some View {
         Button(action: { onTap?() }) {
-            HStack(spacing: 16) {
+            HStack(spacing: 14) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.accentGreen.opacity(0.15))
-                        .frame(width: 50, height: 50)
-
+                        .fill(Color.neonGreen.opacity(0.1))
+                        .frame(width: 48, height: 48)
                     Image(systemName: "figure.strengthtraining.traditional")
                         .font(.title3)
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.neonGreen)
                 }
 
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 3) {
                     HStack {
-                        Text(session.name.isEmpty ? "Treino" : session.name)
-                            .font(.body)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.primary)
-
+                        Text((session.name.isEmpty ? "TREINO" : session.name).uppercased())
+                            .font(.subheadline).fontWeight(.bold)
+                            .foregroundStyle(.white)
                         if let template = session.templateName {
-                            Text(template)
-                                .font(.caption2)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(Color.accentBlue.opacity(0.15))
+                            Text(template.uppercased())
+                                .font(.system(size: 8)).fontWeight(.bold)
+                                .padding(.horizontal, 6).padding(.vertical, 2)
+                                .background(Color.neonBlue.opacity(0.15))
                                 .clipShape(Capsule())
-                                .foregroundStyle(Color.accentBlue)
+                                .foregroundStyle(Color.neonBlue)
                         }
                     }
 
                     Text(session.date.formattedRelative())
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(.caption).foregroundStyle(.gray)
 
-                    HStack(spacing: 12) {
-                        Label("\(session.completedExercises) ex", systemImage: "dumbbell.fill")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                        Label("\(session.totalSets) séries", systemImage: "list.bullet")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                    HStack(spacing: 10) {
+                        Label("\(session.completedExercises) EX", systemImage: "dumbbell.fill")
+                            .font(.system(size: 9)).fontWeight(.bold).foregroundStyle(.gray)
+                        Label("\(session.totalSets) SÉRIES", systemImage: "list.bullet")
+                            .font(.system(size: 9)).fontWeight(.bold).foregroundStyle(.gray)
                         if session.endTime != nil {
                             Label(session.duration.formattedDuration(), systemImage: "clock")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .font(.system(size: 9)).fontWeight(.bold).foregroundStyle(.gray)
                         }
                     }
                 }
@@ -60,17 +52,17 @@ struct WorkoutCard: View {
 
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(String(format: "%.0f", session.totalVolume))
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.accentGreen)
-                    Text("kg")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .font(.title3).fontWeight(.heavy)
+                        .foregroundStyle(Color.neonGreen)
+                    Text("KG")
+                        .font(.caption2).fontWeight(.bold)
+                        .foregroundStyle(.gray)
                 }
             }
-            .padding()
-            .background(Color.cardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .padding(14)
+            .background(Color.gymCard)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.gymBorder, lineWidth: 1))
         }
         .contextMenu {
             if let onDuplicate = onDuplicate {

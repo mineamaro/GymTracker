@@ -1,36 +1,22 @@
 import SwiftUI
 
 extension View {
-    func cardStyle() -> some View {
+    func gymCard() -> some View {
         self
             .padding()
-            .background(Color.cardBackground)
+            .background(Color.gymCard)
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+            .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 
-    func softHighlight() -> some View {
+    func gymButton(_ color: Color = .neonGreen) -> some View {
         self
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
-}
-
-extension View {
-    func navigationTitleStyle() -> some View {
-        self
-            .navigationBarTitleDisplayMode(.large)
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
-        if condition {
-            transform(self)
-        } else {
-            self
-        }
+            .fontWeight(.heavy)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(color.opacity(0.15))
+            .foregroundStyle(color)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(color.opacity(0.3), lineWidth: 1))
     }
 }

@@ -27,46 +27,52 @@ struct ContentView: View {
                         }
                         .tag(2)
 
-                    HistoryView(dataService: dataService)
+                    EvolutionView(dataService: dataService)
                         .tabItem {
-                            Label("Histórico", systemImage: selectedTab == 3 ? "clock.arrow.circlepath.fill" : "clock.arrow.circlepath")
+                            Label("Evolução", systemImage: selectedTab == 3 ? "camera.viewfinder.fill" : "camera.viewfinder")
                         }
                         .tag(3)
 
-                    EvolutionView(dataService: dataService)
+                    StatisticsView(dataService: dataService)
                         .tabItem {
-                            Label("Evolução", systemImage: selectedTab == 4 ? "camera.viewfinder.fill" : "camera.viewfinder")
+                            Label("Stats", systemImage: selectedTab == 4 ? "chart.bar.fill" : "chart.bar")
                         }
                         .tag(4)
 
-                    StatisticsView(dataService: dataService)
-                        .tabItem {
-                            Label("Stats", systemImage: selectedTab == 5 ? "chart.bar.fill" : "chart.bar")
-                        }
-                        .tag(5)
-
                     ProfileView(dataService: dataService)
                         .tabItem {
-                            Label("Perfil", systemImage: selectedTab == 6 ? "person.fill" : "person")
+                            Label("Perfil", systemImage: selectedTab == 5 ? "person.fill" : "person")
                         }
-                        .tag(6)
+                        .tag(5)
                 }
-                .tint(Color.accentGreen)
+                .tint(Color.neonGreen)
+                .preferredColorScheme(.dark)
+                .onAppear {
+                    styleTabBar()
+                }
             } else {
-                ProgressView("Carregando...")
+                ZStack {
+                    Color.gymBackground.ignoresSafeArea()
+                    ProgressView("CARREGANDO...")
+                        .foregroundStyle(.white)
+                }
             }
         }
         .onAppear {
             let ds = DataService(modelContext: modelContext)
             dataService = ds
             SampleData.preloadIfNeeded(modelContext: modelContext)
-            styleTabBar()
         }
     }
 
     private func styleTabBar() {
         let appearance = UITabBarAppearance()
-        appearance.configureWithDefaultBackground()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(Color.gymCard)
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor.gray
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.neonGreen)
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor(Color.neonGreen)]
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
     }

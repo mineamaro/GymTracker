@@ -8,53 +8,54 @@ struct SetRow: View {
         HStack(spacing: 12) {
             ZStack {
                 Circle()
-                    .fill(set.isPersonalRecord ? Color.accentOrange.opacity(0.2) : Color(.systemGray6))
+                    .fill(set.isPersonalRecord ? Color.neonOrange.opacity(0.15) : Color.gymCardLight)
                     .frame(width: 36, height: 36)
-
                 Text("\(set.setNumber)")
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(set.isPersonalRecord ? Color.accentOrange : Color.primary)
+                    .font(.callout).fontWeight(.bold)
+                    .foregroundStyle(set.isPersonalRecord ? Color.neonOrange : .white)
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                HStack(spacing: 8) {
-                    Label("\(set.reps) reps", systemImage: "arrow.triangle.2.circlepath")
-                        .font(.subheadline)
-                    Label(String(format: "%.1f kg", set.weight), systemImage: "scalemass")
-                        .font(.subheadline)
+                HStack(spacing: 12) {
+                    HStack(spacing: 4) {
+                        Text("\(set.reps)").fontWeight(.bold).foregroundStyle(.white)
+                        Text("REPS").font(.system(size: 9)).foregroundStyle(.gray)
+                    }
+                    .font(.subheadline)
+                    HStack(spacing: 4) {
+                        Text(String(format: "%.1f", set.weight)).fontWeight(.bold).foregroundStyle(.white)
+                        Text("KG").font(.system(size: 9)).foregroundStyle(.gray)
+                    }
+                    .font(.subheadline)
                 }
-                .foregroundStyle(.primary)
 
                 if !set.notes.isEmpty {
-                    Text(set.notes)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Text(set.notes.uppercased())
+                        .font(.system(size: 9)).foregroundStyle(.gray)
                 }
 
                 if set.isPersonalRecord {
-                    Label("Recorde Pessoal!", systemImage: "flame.fill")
-                        .font(.caption2)
-                        .foregroundStyle(Color.accentOrange)
+                    Label("🔥 RECORDE PESSOAL!", systemImage: "flame.fill")
+                        .font(.system(size: 9)).fontWeight(.bold)
+                        .foregroundStyle(Color.neonOrange)
                 }
             }
 
             Spacer()
 
             if set.setType != "Normal" {
-                Text(set.setType)
-                    .font(.caption2)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 3)
-                    .background(Color.accentPurple.opacity(0.15))
+                Text(set.setType.uppercased())
+                    .font(.system(size: 8)).fontWeight(.bold)
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(Color.neonPurple.opacity(0.15))
                     .clipShape(Capsule())
-                    .foregroundStyle(Color.accentPurple)
+                    .foregroundStyle(Color.neonPurple)
             }
 
             if let onDelete = onDelete {
                 Button(action: onDelete) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                         .font(.caption)
                 }
             }

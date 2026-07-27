@@ -3,7 +3,7 @@ import SwiftUI
 struct SimpleChartView: View {
     let data: [(Date, Double)]
     var title: String = ""
-    var color: Color = .accentBlue
+    var color: Color = .neonBlue
     var lineOnly: Bool = false
 
     private var maxValue: Double {
@@ -14,13 +14,14 @@ struct SimpleChartView: View {
         VStack(alignment: .leading, spacing: 8) {
             if !title.isEmpty {
                 Text(title)
-                    .font(.headline)
+                    .font(.headline).fontWeight(.bold)
+                    .foregroundStyle(.white)
             }
 
             if data.isEmpty {
-                Text("Sem dados suficientes")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                Text("SEM DADOS SUFICIENTES")
+                    .font(.subheadline).fontWeight(.bold)
+                    .foregroundStyle(.gray)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 30)
             } else {
@@ -34,76 +35,63 @@ struct SimpleChartView: View {
                                 for (index, point) in data.enumerated() {
                                     let x = width * CGFloat(index) / CGFloat(max(data.count - 1, 1))
                                     let y = height * (1 - CGFloat(point.1 / maxValue))
-                                    if index == 0 {
-                                        path.move(to: CGPoint(x: x, y: y))
-                                    } else {
-                                        path.addLine(to: CGPoint(x: x, y: y))
-                                    }
+                                    if index == 0 { path.move(to: CGPoint(x: x, y: y)) }
+                                    else { path.addLine(to: CGPoint(x: x, y: y)) }
                                 }
                             }
-                            .stroke(color, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                            .stroke(color, style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
                         } else {
                             ZStack {
                                 Path { path in
                                     for (index, point) in data.enumerated() {
                                         let x = width * CGFloat(index) / CGFloat(max(data.count - 1, 1))
                                         let y = height * (1 - CGFloat(point.1 / maxValue))
-                                        if index == 0 {
-                                            path.move(to: CGPoint(x: x, y: y))
-                                        } else {
-                                            path.addLine(to: CGPoint(x: x, y: y))
-                                        }
+                                        if index == 0 { path.move(to: CGPoint(x: x, y: y)) }
+                                        else { path.addLine(to: CGPoint(x: x, y: y)) }
                                     }
                                 }
-                                .stroke(color, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                                .stroke(color, style: StrokeStyle(lineWidth: 2.5, lineCap: .round, lineJoin: .round))
 
                                 Path { path in
                                     for (index, point) in data.enumerated() {
                                         let x = width * CGFloat(index) / CGFloat(max(data.count - 1, 1))
                                         let y = height * (1 - CGFloat(point.1 / maxValue))
-                                        if index == 0 {
-                                            path.move(to: CGPoint(x: x, y: y))
-                                            path.addLine(to: CGPoint(x: x, y: height))
-                                        } else {
-                                            path.addLine(to: CGPoint(x: x, y: y))
-                                            path.addLine(to: CGPoint(x: x, y: height))
-                                        }
+                                        if index == 0 { path.move(to: CGPoint(x: x, y: y)); path.addLine(to: CGPoint(x: x, y: height)) }
+                                        else { path.addLine(to: CGPoint(x: x, y: y)); path.addLine(to: CGPoint(x: x, y: height)) }
                                     }
                                 }
-                                .fill(LinearGradient(colors: [color.opacity(0.3), color.opacity(0)], startPoint: .top, endPoint: .bottom))
+                                .fill(LinearGradient(colors: [color.opacity(0.25), color.opacity(0)], startPoint: .top, endPoint: .bottom))
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 4))
                         }
 
-                        if data.count <= 8 {
-                            ForEach(Array(data.enumerated()), id: \.offset) { index, point in
-                                let x = width * CGFloat(index) / CGFloat(max(data.count - 1, 1))
-                                let y = height * (1 - CGFloat(point.1 / maxValue))
-                                Circle()
-                                    .fill(color)
-                                    .frame(width: 6, height: 6)
-                                    .position(x: x, y: y)
-                            }
+                        ForEach(Array(data.enumerated()), id: \.offset) { index, point in
+                            let x = width * CGFloat(index) / CGFloat(max(data.count - 1, 1))
+                            let y = height * (1 - CGFloat(point.1 / maxValue))
+                            Circle()
+                                .fill(color)
+                                .frame(width: 7, height: 7)
+                                .shadow(color: color.opacity(0.5), radius: 3)
+                                .position(x: x, y: y)
                         }
                     }
                 }
-                .frame(height: 140)
+                .frame(height: 150)
 
                 if data.count > 1 {
                     HStack {
                         Text(data.first?.0.formattedShortDate() ?? "")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 8)).foregroundStyle(.gray)
                         Spacer()
                         Text(data.last?.0.formattedShortDate() ?? "")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .font(.system(size: 8)).foregroundStyle(.gray)
                     }
                 }
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 }

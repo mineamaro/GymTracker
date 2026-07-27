@@ -6,20 +6,19 @@ struct GoalCard: View {
     var onDelete: (() -> Void)?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: goal.iconName)
                     .font(.title3)
-                    .foregroundStyle(goal.isCompleted ? Color.accentGreen : Color.accentBlue)
+                    .foregroundStyle(goal.isCompleted ? Color.neonGreen : Color.neonBlue)
 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(goal.title)
-                        .font(.body)
-                        .fontWeight(.semibold)
+                    Text(goal.title.uppercased())
+                        .font(.body).fontWeight(.bold)
+                        .foregroundStyle(.white)
                     if !goal.goalDescription.isEmpty {
-                        Text(goal.goalDescription)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                        Text(goal.goalDescription.uppercased())
+                            .font(.caption).foregroundStyle(.gray)
                     }
                 }
 
@@ -27,24 +26,24 @@ struct GoalCard: View {
 
                 if goal.isCompleted {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.neonGreen)
                         .font(.title3)
                 }
             }
 
-            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? Color.accentGreen : .accentBlue)
+            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? .neonGreen : .neonBlue)
 
             HStack {
                 Text("\(String(format: "%.1f", goal.currentValue)) / \(String(format: "%.1f", goal.targetValue)) \(goal.unit)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.caption).fontWeight(.bold)
+                    .foregroundStyle(.gray)
 
                 Spacer()
 
                 if let deadline = goal.deadline {
-                    Text("Meta: \(deadline.formattedShortDate())")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                    Text("📅 \(deadline.formattedShortDate())")
+                        .font(.system(size: 9)).fontWeight(.bold)
+                        .foregroundStyle(.gray)
                 }
             }
 
@@ -52,17 +51,17 @@ struct GoalCard: View {
                 HStack {
                     Button(action: { onUpdate(min(goal.currentValue + 1, goal.targetValue)) }) {
                         Label("+1", systemImage: "plus.circle")
-                            .font(.caption)
+                            .font(.caption).fontWeight(.bold)
                     }
                     .buttonStyle(.bordered)
-                    .tint(Color.accentBlue)
+                    .tint(Color.neonBlue)
 
                     Button(action: { onUpdate(goal.targetValue) }) {
-                        Text("Concluir")
-                            .font(.caption)
+                        Text("CONCLUIR")
+                            .font(.caption).fontWeight(.bold)
                     }
                     .buttonStyle(.bordered)
-                    .tint(Color.accentGreen)
+                    .tint(Color.neonGreen)
                 }
             }
 
@@ -74,7 +73,8 @@ struct GoalCard: View {
             }
         }
         .padding()
-        .background(Color.cardBackground)
+        .background(Color.gymCard)
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gymBorder, lineWidth: 1))
     }
 }

@@ -2,26 +2,28 @@ import SwiftUI
 
 struct SearchBar: View {
     @Binding var text: String
-    var placeholder: String = "Buscar..."
+    var placeholder: String = "BUSCAR..."
 
     var body: some View {
         HStack(spacing: 8) {
             Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.gray)
                 .font(.subheadline)
 
             TextField(placeholder, text: $text)
-                .font(.body)
+                .font(.subheadline).fontWeight(.semibold)
+                .foregroundStyle(.white)
 
             if !text.isEmpty {
                 Button(action: { text = "" }) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.gray)
                 }
             }
         }
-        .padding(12)
-        .background(Color(.systemGray6))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .padding(14)
+        .background(Color.gymCard)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color.gymBorder, lineWidth: 1))
     }
 }
