@@ -12,7 +12,7 @@ struct GoalsListView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(viewModel.goals) { goal in
+                    ForEach(viewModel.goals, id: \.id) { goal in
                         GoalCard(
                             goal: goal,
                             onUpdate: { newValue in viewModel.updateProgress(goal, newValue: newValue) },

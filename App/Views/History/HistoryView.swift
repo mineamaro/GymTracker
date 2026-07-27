@@ -18,7 +18,7 @@ struct HistoryView: View {
                             message: "Complete treinos para ver seu histórico aqui."
                         )
                     } else {
-                        ForEach(viewModel.sessions) { session in
+                        ForEach(viewModel.sessions, id: \.id) { session in
                             NavigationLink(destination: sessionDetailView(session)) {
                                 WorkoutCard(
                                     session: session,
@@ -61,7 +61,7 @@ struct HistoryView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(name)
                             .font(.headline)
-                        ForEach(grouped[name]!.sorted(by: { $0.setNumber < $1.setNumber })) { set in
+                        ForEach(grouped[name]!.sorted(by: { $0.setNumber < $1.setNumber }), id: \.id) { set in
                             SetRow(set: set)
                         }
                     }

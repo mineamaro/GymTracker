@@ -62,7 +62,7 @@ struct WorkoutListView: View {
                         action: { showNewWorkout = true }
                     )
                 } else {
-                    ForEach(viewModel.recentSessions) { session in
+                    ForEach(viewModel.recentSessions, id: \.id) { session in
                         WorkoutCard(
                             session: session,
                             onTap: { viewModel.activateSession(session) },

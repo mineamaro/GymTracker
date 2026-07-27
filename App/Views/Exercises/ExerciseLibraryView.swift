@@ -3,8 +3,10 @@ import SwiftUI
 struct ExerciseLibraryView: View {
     @State private var viewModel: ExerciseLibraryViewModel
     @State private var showCustomExercise = false
+    private let dataService: DataService
 
     init(dataService: DataService) {
+        self.dataService = dataService
         _viewModel = State(initialValue: ExerciseLibraryViewModel(dataService: dataService))
     }
 
@@ -83,8 +85,8 @@ struct ExerciseLibraryView: View {
 
     private var exerciseList: some View {
         List {
-            ForEach(viewModel.filteredExercises) { exercise in
-                NavigationLink(destination: ExerciseDetailView(exercise: exercise, dataService: viewModel)) {
+            ForEach(viewModel.filteredExercises, id: \.id) { exercise in
+                NavigationLink(destination: ExerciseDetailView(exercise: exercise, dataService: dataService)) {
                     ExerciseRow(exercise: exercise)
                 }
             }

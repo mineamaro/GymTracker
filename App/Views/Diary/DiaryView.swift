@@ -136,7 +136,7 @@ struct DiaryView: View {
             Text("Registros Anteriores")
                 .font(.headline)
 
-            ForEach(viewModel.entries.prefix(10)) { entry in
+            ForEach(viewModel.entries.prefix(10), id: \.id) { entry in
                 DiaryCard(entry: entry, onDelete: { viewModel.deleteEntry(entry) })
             }
         }

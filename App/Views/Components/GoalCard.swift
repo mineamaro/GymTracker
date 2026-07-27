@@ -10,7 +10,7 @@ struct GoalCard: View {
             HStack {
                 Image(systemName: goal.iconName)
                     .font(.title3)
-                    .foregroundStyle(goal.isCompleted ? .accentGreen : .accentBlue)
+                    .foregroundStyle(goal.isCompleted ? Color.accentGreen : Color.accentBlue)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(goal.title)
@@ -32,7 +32,7 @@ struct GoalCard: View {
                 }
             }
 
-            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? .accentGreen : .accentBlue)
+            ProgressBarView(progress: goal.progress, color: goal.isCompleted ? Color.accentGreen : .accentBlue)
 
             HStack {
                 Text("\(String(format: "%.1f", goal.currentValue)) / \(String(format: "%.1f", goal.targetValue)) \(goal.unit)")

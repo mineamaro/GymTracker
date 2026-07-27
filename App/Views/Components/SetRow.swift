@@ -14,7 +14,7 @@ struct SetRow: View {
                 Text("\(set.setNumber)")
                     .font(.callout)
                     .fontWeight(.semibold)
-                    .foregroundStyle(set.isPersonalRecord ? .accentOrange : .primary)
+                    .foregroundStyle(set.isPersonalRecord ? Color.accentOrange : Color.primary)
             }
 
             VStack(alignment: .leading, spacing: 2) {

@@ -65,7 +65,7 @@ struct EvolutionView: View {
                     action: { showAddPhoto = true }
                 )
             } else {
-                ForEach(viewModel.photos) { photo in
+                ForEach(viewModel.photos, id: \.id) { photo in
                     PhotoCard(
                         photo: photo,
                         onCompare: { viewModel.selectForComparison(photo) },
@@ -150,7 +150,7 @@ struct EvolutionView: View {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ForEach(viewModel.photos) { photo in
+                ForEach(viewModel.photos, id: \.id) { photo in
                     Button(action: { viewModel.selectForComparison(photo) }) {
                         PhotoCard(photo: photo)
                     }

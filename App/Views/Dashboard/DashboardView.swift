@@ -140,7 +140,7 @@ struct DashboardView: View {
                 EmptyStateView(icon: "figure.strengthtraining.traditional", title: "Nenhum treino ainda",
                                message: "Seus treinos registrados aparecerão aqui.")
             } else {
-                ForEach(viewModel.recentSessions) { session in
+                ForEach(viewModel.recentSessions, id: \.id) { session in
                     WorkoutCard(session: session)
                 }
             }
